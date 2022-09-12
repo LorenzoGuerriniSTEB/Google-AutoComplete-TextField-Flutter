@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Custom Autocomplete sample'),
+      home: const MyHomePage(title: 'Custom Autocomplete sample'),
     );
   }
 }
@@ -64,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             placesAutoCompleteTextField(),
           ],
         ),
@@ -74,16 +76,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   placesAutoCompleteTextField() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GooglePlaceAutoCompleteTextField(
           textEditingController: controller,
           googleAPIKey: 'YOUR_GOOGLE_API_KEY',
-          inputDecoration: InputDecoration(hintText: 'Search your location'),
+          inputDecoration:
+              const InputDecoration(hintText: 'Search your location'),
           debounceTime: 800,
-          countries: ['in', 'fr'],
+          countries: const ['in', 'fr'],
           isLatLngRequired: true,
           getPlaceDetailWithLatLng: (Prediction prediction) {
-            print('placeDetails' + prediction.lng.toString());
+            print('placeDetails${prediction.lng}');
           },
           itmClick: (Prediction prediction) {
             controller.text = prediction.description ?? '';
