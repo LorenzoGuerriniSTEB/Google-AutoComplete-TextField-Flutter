@@ -1,4 +1,7 @@
+library example;
+
 import 'package:flutter/material.dart';
+
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 
@@ -19,9 +22,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
   final String title;
+
+  const MyHomePage({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -80,10 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
             print("placeDetails" + prediction.lng.toString());
           },
           itmClick: (Prediction prediction) {
-            controller.text = prediction.description;
+            controller.text = prediction.description ?? '';
 
             controller.selection = TextSelection.fromPosition(
-                TextPosition(offset: prediction.description.length));
+                TextPosition(offset: (prediction.description?.length ?? 0)));
           }
           // default 600 ms ,
           ),
