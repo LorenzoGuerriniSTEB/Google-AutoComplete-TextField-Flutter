@@ -21,6 +21,15 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
 
   final String? languageCode;
 
+  final double? latitude;
+  final double? longitude;
+
+  ///Defaulta is 20Km
+  final double? radius;
+
+  ///Defaulta is false
+  final bool? showParkingOnlyInRadius;
+
   const GooglePlaceAutoCompleteTextField({
     Key? key,
     required this.inputDecoration,
@@ -33,6 +42,10 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
     this.countries = const [],
     this.textEditingController,
     this.languageCode,
+    this.latitude,
+    this.longitude,
+    this.radius,
+    this.showParkingOnlyInRadius,
   }) : super(key: key);
 
   @override
@@ -68,8 +81,8 @@ class _GooglePlaceAutoCompleteTextFieldState
     String url =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$text&key=${widget.googleAPIKey}';
 
+    //Country
     if (widget.countries.isNotEmpty) {
-      // in
       for (int i = 0; i < widget.countries.length; i++) {
         String country = widget.countries[i];
 
@@ -81,8 +94,16 @@ class _GooglePlaceAutoCompleteTextFieldState
       }
     }
 
+    //Language
     if (widget.languageCode != null) {
       url += '&language=${widget.languageCode}';
+    }
+
+    //Positions
+    if (widget.latitude != null && widget.longitude != null) {
+      url += '&location=${widget.latitude}%2C${widget.longitude}';
+      url += '&radius=${widget.radius ?? 20000}';
+      url += '&strictbounds=${widget.showParkingOnlyInRadius ?? false}';
     }
 
     Response response = await dio.get(url);
