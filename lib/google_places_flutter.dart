@@ -103,7 +103,9 @@ class _GooglePlaceAutoCompleteTextFieldState
     if (widget.latitude != null && widget.longitude != null) {
       url += '&location=${widget.latitude}%2C${widget.longitude}';
       url += '&radius=${widget.radius ?? 20000}';
-      url += '&strictbounds=${widget.showParkingOnlyInRadius ?? false}';
+      if (widget.showParkingOnlyInRadius ?? false) {
+        url += '&strictbounds=true';
+      }
     }
 
     Response response = await dio.get(url);
