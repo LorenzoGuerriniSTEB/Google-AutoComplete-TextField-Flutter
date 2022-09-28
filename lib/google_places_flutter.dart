@@ -13,6 +13,8 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
   final GetPlaceDetailswWithLatLng? getPlaceDetailWithLatLng;
   final bool isLatLngRequired;
 
+  final Error? onError;
+
   final TextStyle? textStyle;
   final String googleAPIKey;
   final int debounceTime;
@@ -36,6 +38,7 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
     this.itmClick,
     this.getPlaceDetailWithLatLng,
     this.isLatLngRequired = true,
+    this.onError,
     this.textStyle,
     required this.googleAPIKey,
     this.debounceTime = 600,
@@ -61,7 +64,6 @@ class _GooglePlaceAutoCompleteTextFieldState
 
   TextEditingController controller = TextEditingController();
   final LayerLink _layerLink = LayerLink();
-  bool isSearched = false;
 
   @override
   Widget build(BuildContext context) {
@@ -108,28 +110,41 @@ class _GooglePlaceAutoCompleteTextFieldState
       }
     }
 
-    Response response = await dio.get(url);
-    PlacesAutocompleteResponse subscriptionResponse =
-        PlacesAutocompleteResponse.fromJson(response.data);
-
     if (text.isEmpty) {
       alPredictions.clear();
       _overlayEntry!.remove();
       return;
     }
 
-    isSearched = false;
-    if (subscriptionResponse.predictions!.isNotEmpty) {
+    try {
+      Response response = await dio.get(url);
+      PlacesAutocompleteResponse subscriptionResponse =
+          PlacesAutocompleteResponse.fromJson(response.data);
+      if (subscriptionResponse.errorMessage?.isNotEmpty == true ||
+          subscriptionResponse.status == 'REQUEST_DENIED') {
+        alPredictions.clear();
+        _overlayEntry!.remove();
+        widget.onError?.call(subscriptionResponse);
+      } else {
+        if (subscriptionResponse.predictions!.isNotEmpty) {
+          alPredictions.clear();
+          alPredictions.addAll(subscriptionResponse.predictions!);
+        }
+
+        _overlayEntry = null;
+        _overlayEntry = _createOverlayEntry();
+        Overlay.of(context)!.insert(_overlayEntry!);
+      }
+    } catch (e) {
       alPredictions.clear();
-      alPredictions.addAll(subscriptionResponse.predictions!);
+      _overlayEntry!.remove();
+      widget.onError?.call(
+        PlacesAutocompleteResponse(
+          status: 'REQUEST_DENIED',
+          errorMessage: e.toString(),
+        ),
+      );
     }
-
-    //if (this._overlayEntry == null)
-
-    _overlayEntry = null;
-    _overlayEntry = _createOverlayEntry();
-    Overlay.of(context)!.insert(_overlayEntry!);
-    //   this._overlayEntry.markNeedsBuild();
   }
 
   @override
@@ -231,3 +246,4 @@ PlaceDetails parsePlaceDetailMap(Map responseBody) {
 typedef ItemClick = void Function(Prediction postalCodeResponse);
 typedef GetPlaceDetailswWithLatLng = void Function(
     Prediction postalCodeResponse);
+typedef Error = void Function(PlacesAutocompleteResponse response);

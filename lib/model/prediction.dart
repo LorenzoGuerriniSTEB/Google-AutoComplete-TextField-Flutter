@@ -1,17 +1,20 @@
 class PlacesAutocompleteResponse {
+  String status;
+  String? errorMessage;
   List<Prediction>? predictions;
-  String? status;
 
-  PlacesAutocompleteResponse({this.predictions, this.status});
+  PlacesAutocompleteResponse({
+    required this.status,
+    this.errorMessage,
+    this.predictions,
+  });
 
-  PlacesAutocompleteResponse.fromJson(Map<String, dynamic> json) {
-    if (json['predictions'] != null) {
-      predictions = [];
-      json['predictions'].forEach((v) {
-        predictions!.add(Prediction.fromJson(v));
-      });
-    }
-    status = json['status'];
+  factory PlacesAutocompleteResponse.fromJson(Map<String, dynamic> json) {
+    return PlacesAutocompleteResponse(
+        status: json['status'],
+        errorMessage: json['error_message'],
+        predictions:
+            (json['predictions'])?.map((p) => Prediction.fromJson(p)).toList());
   }
 
   Map<String, dynamic> toJson() {
