@@ -9,12 +9,15 @@ class PlacesAutocompleteResponse {
     this.predictions,
   });
 
-  factory PlacesAutocompleteResponse.fromMap(Map<String, dynamic> json) {
+  factory PlacesAutocompleteResponse.fromMap(Map<String, dynamic> map) {
     return PlacesAutocompleteResponse(
-        status: json['status'],
-        errorMessage: json['error_message'],
-        predictions:
-            (json['predictions'])?.map((p) => Prediction.fromMap(p)).toList());
+      status: map['status'],
+      errorMessage: map['error_message'],
+      predictions: map['predictions'] != null
+          ? List<Prediction>.from(
+              map['predictions']?.map((x) => Prediction.fromMap(x)))
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -51,29 +54,29 @@ class Prediction {
       this.lat,
       this.lng});
 
-  Prediction.fromMap(Map<String, dynamic> json) {
-    description = json['description'];
-    id = json['id'];
-    if (json['matched_substrings'] != null) {
+  Prediction.fromMap(Map<String, dynamic> map) {
+    description = map['description'];
+    id = map['id'];
+    if (map['matched_substrings'] != null) {
       matchedSubstrings = [];
-      json['matched_substrings'].forEach((v) {
+      map['matched_substrings'].forEach((v) {
         matchedSubstrings!.add(MatchedSubstrings.fromJson(v));
       });
     }
-    placeId = json['place_id'];
-    reference = json['reference'];
-    structuredFormatting = json['structured_formatting'] != null
-        ? StructuredFormatting.fromJson(json['structured_formatting'])
+    placeId = map['place_id'];
+    reference = map['reference'];
+    structuredFormatting = map['structured_formatting'] != null
+        ? StructuredFormatting.fromJson(map['structured_formatting'])
         : null;
-    if (json['terms'] != null) {
+    if (map['terms'] != null) {
       terms = [];
-      json['terms'].forEach((v) {
+      map['terms'].forEach((v) {
         terms!.add(Terms.fromJson(v));
       });
     }
-    types = json['types'].cast<String>();
-    lat = json['lat'];
-    lng = json['lng'];
+    types = map['types'].cast<String>();
+    lat = map['lat'];
+    lng = map['lng'];
   }
 
   Map<String, dynamic> toJson() {
