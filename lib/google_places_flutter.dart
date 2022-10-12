@@ -112,7 +112,7 @@ class _GooglePlaceAutoCompleteTextFieldState
 
     if (text.isEmpty) {
       alPredictions.clear();
-      _overlayEntry!.remove();
+      _overlayEntry?.remove();
       return;
     }
 
@@ -123,7 +123,7 @@ class _GooglePlaceAutoCompleteTextFieldState
       if (subscriptionResponse.errorMessage?.isNotEmpty == true ||
           subscriptionResponse.status == 'REQUEST_DENIED') {
         alPredictions.clear();
-        _overlayEntry!.remove();
+        _overlayEntry?.remove();
         widget.onError?.call(subscriptionResponse);
       } else {
         if (subscriptionResponse.predictions!.isNotEmpty) {
@@ -137,7 +137,7 @@ class _GooglePlaceAutoCompleteTextFieldState
       }
     } catch (e) {
       alPredictions.clear();
-      _overlayEntry!.remove();
+      _overlayEntry?.remove();
       widget.onError?.call(
         PlacesAutocompleteResponse(
           status: 'REQUEST_DENIED',
