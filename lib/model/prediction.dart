@@ -9,12 +9,12 @@ class PlacesAutocompleteResponse {
     this.predictions,
   });
 
-  factory PlacesAutocompleteResponse.fromJson(Map<String, dynamic> json) {
+  factory PlacesAutocompleteResponse.fromMap(Map<String, dynamic> json) {
     return PlacesAutocompleteResponse(
         status: json['status'],
         errorMessage: json['error_message'],
         predictions:
-            (json['predictions'])?.map((p) => Prediction.fromJson(p)).toList());
+            (json['predictions'])?.map((p) => Prediction.fromMap(p)).toList());
   }
 
   Map<String, dynamic> toJson() {
@@ -51,7 +51,7 @@ class Prediction {
       this.lat,
       this.lng});
 
-  Prediction.fromJson(Map<String, dynamic> json) {
+  Prediction.fromMap(Map<String, dynamic> json) {
     description = json['description'];
     id = json['id'];
     if (json['matched_substrings'] != null) {

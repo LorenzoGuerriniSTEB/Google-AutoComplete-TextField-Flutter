@@ -119,7 +119,7 @@ class _GooglePlaceAutoCompleteTextFieldState
     try {
       Response response = await dio.get(url);
       PlacesAutocompleteResponse subscriptionResponse =
-          PlacesAutocompleteResponse.fromJson(response.data);
+          PlacesAutocompleteResponse.fromMap(response.data);
       if (subscriptionResponse.errorMessage?.isNotEmpty == true ||
           subscriptionResponse.status == 'REQUEST_DENIED') {
         alPredictions.clear();
@@ -235,7 +235,7 @@ class _GooglePlaceAutoCompleteTextFieldState
 }
 
 PlacesAutocompleteResponse parseResponse(Map responseBody) {
-  return PlacesAutocompleteResponse.fromJson(
+  return PlacesAutocompleteResponse.fromMap(
       responseBody as Map<String, dynamic>);
 }
 
