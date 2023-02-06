@@ -14,8 +14,8 @@ class PlacesAutocompleteResponse {
       status: map['status'],
       errorMessage: map['error_message'],
       predictions: map['predictions'] != null
-          ? List<Prediction>.from(
-              map['predictions']?.map((x) => Prediction.fromMap(x)))
+          ? List<Prediction>.from(map['predictions']
+              ?.map((Map<String, dynamic> x) => Prediction.fromMap(x)))
           : null,
     );
   }
@@ -23,7 +23,8 @@ class PlacesAutocompleteResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (predictions != null) {
-      data['predictions'] = predictions!.map((v) => v.toJson()).toList();
+      data['predictions'] =
+          predictions!.map((Prediction v) => v.toJson()).toList();
     }
     data['status'] = status;
     return data;
@@ -58,8 +59,8 @@ class Prediction {
     description = map['description'];
     id = map['id'];
     if (map['matched_substrings'] != null) {
-      matchedSubstrings = [];
-      map['matched_substrings'].forEach((v) {
+      matchedSubstrings = <MatchedSubstrings>[];
+      map['matched_substrings'].forEach((Map<String, dynamic> v) {
         matchedSubstrings!.add(MatchedSubstrings.fromJson(v));
       });
     }
@@ -69,8 +70,8 @@ class Prediction {
         ? StructuredFormatting.fromJson(map['structured_formatting'])
         : null;
     if (map['terms'] != null) {
-      terms = [];
-      map['terms'].forEach((v) {
+      terms = <Terms>[];
+      map['terms'].forEach((Map<String, dynamic> v) {
         terms!.add(Terms.fromJson(v));
       });
     }
@@ -85,7 +86,7 @@ class Prediction {
     data['id'] = id;
     if (matchedSubstrings != null) {
       data['matched_substrings'] =
-          matchedSubstrings!.map((v) => v.toJson()).toList();
+          matchedSubstrings!.map((MatchedSubstrings v) => v.toJson()).toList();
     }
     data['place_id'] = placeId;
     data['reference'] = reference;
@@ -93,7 +94,7 @@ class Prediction {
       data['structured_formatting'] = structuredFormatting!.toJson();
     }
     if (terms != null) {
-      data['terms'] = terms!.map((v) => v.toJson()).toList();
+      data['terms'] = terms!.map((Terms v) => v.toJson()).toList();
     }
     data['types'] = types;
     data['lat'] = lat;

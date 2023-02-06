@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -64,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 20),
             placesAutoCompleteTextField(),
@@ -74,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  placesAutoCompleteTextField() {
+  Container placesAutoCompleteTextField() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GooglePlaceAutoCompleteTextField(
@@ -83,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
           inputDecoration:
               const InputDecoration(hintText: 'Search your location'),
           debounceTime: 800,
-          countries: const ['in', 'fr'],
+          countries: const <String>['in', 'fr'],
           isLatLngRequired: true,
           getPlaceDetailWithLatLng: (Prediction prediction) {
             print('placeDetails${prediction.lng}');
@@ -92,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
             controller.text = prediction.description ?? '';
 
             controller.selection = TextSelection.fromPosition(
-                TextPosition(offset: (prediction.description?.length ?? 0)));
+                TextPosition(offset: prediction.description?.length ?? 0));
           }
           // default 600 ms ,
           ),

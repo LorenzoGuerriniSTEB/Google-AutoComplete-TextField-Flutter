@@ -56,8 +56,8 @@ class Result {
 
   Result.fromJson(Map<String, dynamic> json) {
     if (json['address_components'] != null) {
-      addressComponents = [];
-      json['address_components'].forEach((v) {
+      addressComponents = <AddressComponents>[];
+      json['address_components'].forEach((Map<String, dynamic> v) {
         addressComponents!.add(AddressComponents.fromJson(v));
       });
     }
@@ -68,8 +68,8 @@ class Result {
     icon = json['icon'];
     name = json['name'];
     if (json['photos'] != null) {
-      photos = [];
-      json['photos'].forEach((v) {
+      photos = <Photos>[];
+      json['photos'].forEach((Map<String, dynamic> v) {
         photos!.add(Photos.fromJson(v));
       });
     }
@@ -87,7 +87,7 @@ class Result {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (addressComponents != null) {
       data['address_components'] =
-          addressComponents!.map((v) => v.toJson()).toList();
+          addressComponents!.map((AddressComponents v) => v.toJson()).toList();
     }
     data['adr_address'] = adrAddress;
     data['formatted_address'] = formattedAddress;
@@ -97,7 +97,7 @@ class Result {
     data['icon'] = icon;
     data['name'] = name;
     if (photos != null) {
-      data['photos'] = photos!.map((v) => v.toJson()).toList();
+      data['photos'] = photos!.map((Photos v) => v.toJson()).toList();
     }
     data['place_id'] = placeId;
     data['reference'] = reference;
