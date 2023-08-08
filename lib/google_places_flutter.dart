@@ -33,7 +33,7 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
   final bool? showParkingOnlyInRadius;
 
   const GooglePlaceAutoCompleteTextField({
-    Key? key,
+    super.key,
     required this.inputDecoration,
     this.itmClick,
     this.getPlaceDetailWithLatLng,
@@ -49,7 +49,7 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
     this.longitude,
     this.radius,
     this.showParkingOnlyInRadius,
-  }) : super(key: key);
+  });
 
   @override
   State<GooglePlaceAutoCompleteTextField> createState() =>
