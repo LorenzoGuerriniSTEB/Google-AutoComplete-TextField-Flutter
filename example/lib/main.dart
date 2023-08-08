@@ -58,21 +58,25 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GooglePlaceAutoCompleteTextField(
-          textEditingController: controller,
-          googleAPIKey: 'YOUR_GOOGLE_API_KEY',
-          inputDecoration:
-              const InputDecoration(hintText: 'Search your location'),
-          debounceTime: 800,
-          countries: const <String>['in', 'fr'],
-          getPlaceDetailWithLatLng: (Prediction prediction) {
-            print('placeDetails${prediction.lng}');
-          },
-          itmClick: (Prediction prediction) {
-            controller.text = prediction.description ?? '';
+        textEditingController: controller,
+        googleAPIKey: 'YOUR_GOOGLE_API_KEY',
+        inputDecoration:
+            const InputDecoration(hintText: 'Search your location'),
+        debounceTime: 800,
+        countries: const <String>['in', 'fr'],
+        getPlaceDetailWithLatLng: (Prediction prediction) {
+          print('placeDetails ${prediction.lng}');
+        },
+        onError: (PlacesAutocompleteResponse response) {
+          print(response.errorMessage);
+        },
+        itmClick: (Prediction prediction) {
+          controller.text = prediction.description ?? '';
 
-            controller.selection = TextSelection.fromPosition(
-                TextPosition(offset: prediction.description?.length ?? 0));
-          }),
+          controller.selection = TextSelection.fromPosition(
+              TextPosition(offset: prediction.description?.length ?? 0));
+        },
+      ),
     );
   }
 }

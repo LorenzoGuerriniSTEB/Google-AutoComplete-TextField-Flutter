@@ -14,8 +14,8 @@ class PlacesAutocompleteResponse {
       status: map['status'],
       errorMessage: map['error_message'],
       predictions: map['predictions'] != null
-          ? List<Prediction>.from(map['predictions']
-              ?.map((Map<String, dynamic> x) => Prediction.fromMap(x)))
+          ? List<Prediction>.from(
+              map['predictions']?.map((dynamic x) => Prediction.fromMap(x)))
           : null,
     );
   }
@@ -60,7 +60,7 @@ class Prediction {
     id = map['id'];
     if (map['matched_substrings'] != null) {
       matchedSubstrings = <MatchedSubstrings>[];
-      map['matched_substrings'].forEach((Map<String, dynamic> v) {
+      map['matched_substrings'].forEach((dynamic v) {
         matchedSubstrings!.add(MatchedSubstrings.fromJson(v));
       });
     }
@@ -71,7 +71,7 @@ class Prediction {
         : null;
     if (map['terms'] != null) {
       terms = <Terms>[];
-      map['terms'].forEach((Map<String, dynamic> v) {
+      map['terms'].forEach((dynamic v) {
         terms!.add(Terms.fromJson(v));
       });
     }

@@ -57,7 +57,7 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     if (json['address_components'] != null) {
       addressComponents = <AddressComponents>[];
-      json['address_components'].forEach((Map<String, dynamic> v) {
+      json['address_components'].forEach((dynamic v) {
         addressComponents!.add(AddressComponents.fromJson(v));
       });
     }
@@ -69,7 +69,7 @@ class Result {
     name = json['name'];
     if (json['photos'] != null) {
       photos = <Photos>[];
-      json['photos'].forEach((Map<String, dynamic> v) {
+      json['photos'].forEach((dynamic v) {
         photos!.add(Photos.fromJson(v));
       });
     }
